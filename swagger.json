@@ -1,0 +1,131 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "API Banque",
+    "description": "API pour gérer les comptes bancaires",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api.php": {
+      "get": {
+        "summary": "Lister tous les comptes",
+        "responses": {
+          "200": {
+            "description": "Liste des comptes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Compte"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Créer un nouveau compte",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "titulaire": {
+                    "type": "string",
+                    "description": "Nom du titulaire du compte",
+                    "example": "Jean Dupont"
+                  }
+                },
+                "required": ["titulaire"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Compte créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Compte créé avec succès"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur de validation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Le nom du titulaire est requis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Compte": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID unique du compte",
+            "example": 1775923632
+          },
+          "numero": {
+            "type": "string",
+            "description": "Numéro du compte",
+            "example": "FR8712BANK"
+          },
+          "titulaire": {
+            "type": "string",
+            "description": "Nom du titulaire",
+            "example": "Marie Claire"
+          },
+          "solde": {
+            "type": "number",
+            "description": "Solde du compte",
+            "example": 0
+          }
+        }
+      }
+    }
+  }
+}
