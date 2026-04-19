@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "API Banque",
-    "description": "API pour gérer les comptes bancaires",
-    "version": "1.0.0"
+    "title": "API Banque Complète",
+    "description": "API complète pour gérer les comptes bancaires avec opérations financières",
+    "version": "2.0.0"
   },
   "servers": [
     {
@@ -69,7 +69,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Compte créé avec succès"
+                      "example": "Compte cree avec succes"
                     },
                     "compte": {
                       "$ref": "#/components/schemas/Compte"
@@ -89,6 +89,429 @@
                     "error": {
                       "type": "string",
                       "example": "Le nom du titulaire est requis"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api.php?id={id}": {
+      "get": {
+        "summary": "Consulter un compte spécifique",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte à consulter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Détails du compte avec transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    },
+                    "transactions": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Compte non trouvé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Compte non trouvé"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Mettre à jour un compte",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte à modifier"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "titulaire": {
+                    "type": "string",
+                    "description": "Nouveau nom du titulaire",
+                    "example": "Marie Dupont"
+                  }
+                },
+                "required": ["titulaire"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Compte mis à jour",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Compte mis à jour avec succès"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Compte non trouvé"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Supprimer un compte",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte à supprimer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Compte supprimé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Compte supprimé avec succès"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Compte non trouvé"
+          }
+        }
+      }
+    },
+    "/api.php?id={id}&action=depot": {
+      "post": {
+        "summary": "Effectuer un dépôt",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["depot"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "montant": {
+                    "type": "number",
+                    "description": "Montant à déposer",
+                    "example": 100.50
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description de l'opération",
+                    "example": "Salaire"
+                  }
+                },
+                "required": ["montant"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dépôt effectué",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Dépôt effectué avec succès"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Montant invalide"
+          },
+          "404": {
+            "description": "Compte non trouvé"
+          }
+        }
+      }
+    },
+    "/api.php?id={id}&action=retrait": {
+      "post": {
+        "summary": "Effectuer un retrait",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["retrait"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "montant": {
+                    "type": "number",
+                    "description": "Montant à retirer",
+                    "example": 50.00
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description de l'opération",
+                    "example": "Courses"
+                  }
+                },
+                "required": ["montant"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Retrait effectué",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Retrait effectué avec succès"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Montant invalide ou solde insuffisant"
+          },
+          "404": {
+            "description": "Compte non trouvé"
+          }
+        }
+      }
+    },
+    "/api.php?id={id}&action=virement": {
+      "post": {
+        "summary": "Effectuer un virement",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte source"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["virement"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "montant": {
+                    "type": "number",
+                    "description": "Montant à virer",
+                    "example": 200.00
+                  },
+                  "compte_destinataire": {
+                    "type": "integer",
+                    "description": "ID du compte destinataire",
+                    "example": 1775923632
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description du virement",
+                    "example": "Paiement loyer"
+                  }
+                },
+                "required": ["montant", "compte_destinataire"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Virement effectué",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Virement effectué avec succès"
+                    },
+                    "compte_source": {
+                      "$ref": "#/components/schemas/Compte"
+                    },
+                    "compte_destinataire": {
+                      "$ref": "#/components/schemas/Compte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Données invalides ou solde insuffisant"
+          },
+          "404": {
+            "description": "Compte source ou destinataire non trouvé"
+          }
+        }
+      }
+    },
+    "/api.php?action=transactions": {
+      "get": {
+        "summary": "Lister toutes les transactions",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["transactions"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste de toutes les transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Transaction"
+                      }
                     }
                   }
                 }
@@ -122,7 +545,44 @@
           "solde": {
             "type": "number",
             "description": "Solde du compte",
-            "example": 0
+            "example": 1500.50
+          }
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "ID unique de la transaction",
+            "example": "17759236321547"
+          },
+          "compte_id": {
+            "type": "integer",
+            "description": "ID du compte concerné",
+            "example": 1775923632
+          },
+          "type": {
+            "type": "string",
+            "enum": ["depot", "retrait", "virement_entrant", "virement_sortant"],
+            "description": "Type de transaction",
+            "example": "depot"
+          },
+          "montant": {
+            "type": "number",
+            "description": "Montant de la transaction (positif pour crédit, négatif pour débit)",
+            "example": 100.50
+          },
+          "description": {
+            "type": "string",
+            "description": "Description de la transaction",
+            "example": "Dépôt salaire"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date et heure de la transaction",
+            "example": "2024-01-15 14:30:25"
           }
         }
       }
