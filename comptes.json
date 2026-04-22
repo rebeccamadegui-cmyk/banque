@@ -1,1 +1,23 @@
-[{"id":1775923632,"numero":"FR8712BANK","titulaire":"Marie Claire","solde":0},{"id":1775923890,"numero":"FR9725BANK","titulaire":"Alice","solde":0},{"id":1776592737,"numero":"FR4886BANK","titulaire":"madegui gabrielle","solde":0}]
+[
+  {
+    "id": 1775923632,
+    "numero": "FR8712BANK",
+    "titulaire": "Marie Claire",
+    "solde": 0,
+    "service": "BANQUE"
+  },
+  {
+    "id": 1775923890,
+    "numero": "FR9725BANK",
+    "titulaire": "Alice",
+    "solde": 0,
+    "service": "BANQUE"
+  },
+  {
+    "id": 1776592737,
+    "numero": "FR4886BANK",
+    "titulaire": "madegui gabrielle",
+    "solde": 0,
+    "service": "BANQUE"
+  }
+]

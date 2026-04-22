@@ -281,7 +281,7 @@
                   "montant": {
                     "type": "number",
                     "description": "Montant à déposer",
-                    "example": 100.50
+                    "example": 100.5
                   },
                   "description": {
                     "type": "string",
@@ -356,7 +356,7 @@
                   "montant": {
                     "type": "number",
                     "description": "Montant à retirer",
-                    "example": 50.00
+                    "example": 50.0
                   },
                   "description": {
                     "type": "string",
@@ -431,7 +431,7 @@
                   "montant": {
                     "type": "number",
                     "description": "Montant à virer",
-                    "example": 200.00
+                    "example": 200.0
                   },
                   "compte_destinataire": {
                     "type": "integer",
@@ -477,6 +477,225 @@
           },
           "404": {
             "description": "Compte source ou destinataire non trouvé"
+          }
+        }
+      }
+    },
+    "/api.php?id={id}&action=transfert_service": {
+      "post": {
+        "summary": "Transférer de l'argent vers un service (OM, MOMO, UBA)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte source"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["transfert_service"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "montant": {
+                    "type": "number",
+                    "description": "Montant à transférer",
+                    "example": 50000
+                  },
+                  "service_destination": {
+                    "type": "string",
+                    "enum": ["OM", "MOMO", "UBA"],
+                    "description": "Service destinataire",
+                    "example": "OM"
+                  },
+                  "service_origine": {
+                    "type": "string",
+                    "description": "Service d'origine (optionnel, défaut: BANQUE)",
+                    "example": "BANQUE"
+                  },
+                  "numero_beneficiaire": {
+                    "type": "string",
+                    "description": "Numéro du bénéficiaire (optionnel)",
+                    "example": "+237681234567"
+                  }
+                },
+                "required": ["montant", "service_destination"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transfert vers service effectué",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "compte": {
+                      "$ref": "#/components/schemas/Compte"
+                    },
+                    "details": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erreur de transfert"
+          }
+        }
+      }
+    },
+    "/api.php?id={id}&action=reception_service": {
+      "post": {
+        "summary": "Recevoir de l'argent d'un service (OM, MOMO, UBA)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID du compte récepteur"
+          },
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["reception_service"]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "montant": {
+                    "type": "number",
+                    "description": "Montant reçu",
+                    "example": 50000
+                  },
+                  "service_origine": {
+                    "type": "string",
+                    "enum": ["OM", "MOMO", "UBA"],
+                    "description": "Service d'origine",
+                    "example": "MOMO"
+                  },
+                  "numero_emetteur": {
+                    "type": "string",
+                    "description": "Numéro de l'émetteur (optionnel)",
+                    "example": "+237681234567"
+                  }
+                },
+                "required": ["montant", "service_origine"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fonds reçus avec succès"
+          }
+        }
+      }
+    },
+    "/api.php?action=transactions_service&service={service}": {
+      "get": {
+        "summary": "Lister les transactions d'un service",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["transactions_service"]
+            }
+          },
+          {
+            "name": "service",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["OM", "MOMO", "UBA"]
+            },
+            "description": "Filtre par service"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transactions du service"
+          }
+        }
+      }
+    },
+    "/api.php?action=services": {
+      "get": {
+        "summary": "Lister les services supportés",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["services"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "services": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": ["OM", "MOMO", "UBA"]
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -545,7 +764,13 @@
           "solde": {
             "type": "number",
             "description": "Solde du compte",
-            "example": 1500.50
+            "example": 1500.5
+          },
+          "service": {
+            "type": "string",
+            "description": "Service associé au compte",
+            "enum": ["BANQUE", "OM", "MOMO", "UBA"],
+            "example": "BANQUE"
           }
         }
       },
@@ -564,19 +789,38 @@
           },
           "type": {
             "type": "string",
-            "enum": ["depot", "retrait", "virement_entrant", "virement_sortant"],
+            "enum": [
+              "depot",
+              "retrait",
+              "virement_entrant",
+              "virement_sortant",
+              "transfert_service_entrant",
+              "transfert_service_sortant"
+            ],
             "description": "Type de transaction",
             "example": "depot"
           },
           "montant": {
             "type": "number",
             "description": "Montant de la transaction (positif pour crédit, négatif pour débit)",
-            "example": 100.50
+            "example": 100.5
           },
           "description": {
             "type": "string",
             "description": "Description de la transaction",
             "example": "Dépôt salaire"
+          },
+          "service": {
+            "type": "string",
+            "enum": ["OM", "MOMO", "UBA", "BANQUE"],
+            "description": "Service d'origine",
+            "example": "OM"
+          },
+          "service_destination": {
+            "type": "string",
+            "enum": ["OM", "MOMO", "UBA", "BANQUE"],
+            "description": "Service de destination",
+            "example": "MOMO"
           },
           "date": {
             "type": "string",
