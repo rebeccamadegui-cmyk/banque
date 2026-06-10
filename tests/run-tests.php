@@ -11,5 +11,5 @@ require_once __DIR__ . '/TestRunner.php';
 $runner = new TestRunner(__DIR__ . '/config.php');
 $runner->runAll();
 
-echo "\n✅ Tests terminés. Consultez les rapports pour plus de détails.\n";
+echo "\nTests termines. Consultez les rapports pour plus de details.\n";
 ?>

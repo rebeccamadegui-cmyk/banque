@@ -59,10 +59,10 @@ class TestRunner {
 
         if ($passed) {
             $this->passed_tests++;
-            $status = '✅ PASS';
+            $status = 'PASS';
         } else {
             $this->failed_tests++;
-            $status = '❌ FAIL';
+            $status = 'FAIL';
         }
 
         $result = [
@@ -91,12 +91,12 @@ class TestRunner {
         $this->total_tests++;
         if ($condition) {
             $this->passed_tests++;
-            echo "✅ PASS | $message\n";
+            echo "PASS | $message\n";
             return true;
         } else {
             $this->failed_tests++;
-            echo "❌ FAIL | $message\n";
-            $this->results[] = ['name' => $message, 'passed' => false, 'status' => '❌ FAIL'];
+            echo "FAIL | $message\n";
+            $this->results[] = ['name' => $message, 'passed' => false, 'status' => 'FAIL'];
             return false;
         }
     }
@@ -386,8 +386,8 @@ class TestRunner {
         echo "║                    RÉSUMÉ DES TESTS                       ║\n";
         echo "╠════════════════════════════════════════════════════════════╣\n";
         printf("║ Total des tests:  %d\n", $this->total_tests);
-        printf("║ Tests réussis:    %d ✅\n", $this->passed_tests);
-        printf("║ Tests échoués:    %d ❌\n", $this->failed_tests);
+        printf("║ Tests réussis:    %d\n", $this->passed_tests);
+        printf("║ Tests échoués:    %d\n", $this->failed_tests);
         printf("║ Taux de réussite: %.1f%%\n", $pass_rate);
         printf("║ Durée:            %.2fs\n", $duration);
         echo "╚════════════════════════════════════════════════════════════╝\n";
@@ -407,7 +407,7 @@ class TestRunner {
             $this->generateJUnitReport($duration);
         }
 
-        echo "\n📊 Rapports générés dans: " . $this->config['reports']['output_dir'] . "\n";
+        echo "\nRapports generates dans: " . $this->config['reports']['output_dir'] . "\n";
     }
 
     /**
@@ -428,7 +428,7 @@ class TestRunner {
 
         $filename = $this->config['reports']['output_dir'] . 'report-' . date('Y-m-d-His') . '.json';
         file_put_contents($filename, json_encode($report, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        echo "✅ Rapport JSON: " . basename($filename) . "\n";
+        echo "Rapport JSON: " . basename($filename) . "\n";
     }
 
     /**
@@ -465,7 +465,7 @@ class TestRunner {
 </head>
 <body>
     <div class="container">
-        <h1>📊 Rapport de Tests - Banque API</h1>
+        <h1>Rapport de Tests - Banque API</h1>
         <p class="timestamp">Généré le ' . date($this->config['reports']['timestamp_format']) . '</p>
         
         <div class="summary">
@@ -519,7 +519,7 @@ class TestRunner {
 
         $filename = $this->config['reports']['output_dir'] . 'report-' . date('Y-m-d-His') . '.html';
         file_put_contents($filename, $html);
-        echo "✅ Rapport HTML: " . basename($filename) . "\n";
+        echo "Rapport HTML: " . basename($filename) . "\n";
     }
 
     /**
@@ -541,7 +541,7 @@ class TestRunner {
 
         $filename = $this->config['reports']['output_dir'] . 'report-' . date('Y-m-d-His') . '.xml';
         file_put_contents($filename, $xml);
-        echo "✅ Rapport JUnit: " . basename($filename) . "\n";
+        echo "Rapport JUnit: " . basename($filename) . "\n";
     }
 
     /**

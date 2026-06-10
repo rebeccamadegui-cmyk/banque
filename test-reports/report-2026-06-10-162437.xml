@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Banque API Tests" tests="41" failures="2" time="0.49">
+  <testcase name="Créer compte: Test Account 1" time="0">
+  </testcase>
+  <testcase name="Créer compte: Test Account 2" time="0">
+  </testcase>
+  <testcase name="Créer compte: Test Account 3" time="0">
+  </testcase>
+  <testcase name="Lister tous les comptes" time="0">
+  </testcase>
+  <testcase name="Récupérer détails compte ID: 1781108676" time="0">
+  </testcase>
+  <testcase name="Modifier titulaire du compte 1781108676" time="0">
+  </testcase>
+  <testcase name="Dépôt de 10000 FCFA sur compte 1781108676" time="0">
+  </testcase>
+  <testcase name="Dépôt de 50000 FCFA sur compte 1781108676" time="0">
+  </testcase>
+  <testcase name="Dépôt de 100000 FCFA sur compte 1781108676" time="0">
+  </testcase>
+  <testcase name="Dépôt avec montant négatif" time="0">
+  </testcase>
+  <testcase name="Dépôt avec montant zéro" time="0">
+  </testcase>
+  <testcase name="Dépôt avec montant très élevé" time="0">
+  </testcase>
+  <testcase name="Retrait de 1000 FCFA" time="0">
+  </testcase>
+  <testcase name="Retrait montant négatif" time="0">
+  </testcase>
+  <testcase name="Retrait montant zéro" time="0">
+  </testcase>
+  <testcase name="Retrait solde insuffisant" time="0">
+  </testcase>
+  <testcase name="Virement de 1781108676 vers 1781108676 (5000 FCFA)" time="0">
+  </testcase>
+  <testcase name="Virement vers compte inexistant" time="0">
+  </testcase>
+  <testcase name="Virement montant négatif" time="0">
+  </testcase>
+  <testcase name="Transfert vers OM (5000 FCFA)" time="0">
+  </testcase>
+  <testcase name="Transfert vers MOMO (5000 FCFA)" time="0">
+  </testcase>
+  <testcase name="Transfert vers UBA (5000 FCFA)" time="0">
+  </testcase>
+  <testcase name="Transfert vers service invalide" time="0">
+  </testcase>
+  <testcase name="Transfert service montant zéro" time="0">
+  </testcase>
+  <testcase name="Lister toutes les transactions" time="0">
+  </testcase>
+  <testcase name="Transactions du service OM" time="0">
+  </testcase>
+  <testcase name="Transactions du service MOMO" time="0">
+  </testcase>
+  <testcase name="Transactions du service UBA" time="0">
+  </testcase>
+  <testcase name="Récupérer liste des services" time="0">
+  </testcase>
+  <testcase name="Compte inexistant" time="0">
+  </testcase>
+  <testcase name="Créer avec titulaire trop court" time="0">
+  </testcase>
+  <testcase name="Créer avec titulaire trop long" time="0">
+  </testcase>
+  <testcase name="Dépôt sans montant" time="0">
+    <failure>HTTP 404 expected 400</failure>
+  </testcase>
+  <testcase name="Requête avec JSON invalide" time="0">
+    <failure>HTTP 404 expected 400</failure>
+  </testcase>
+</testsuites>

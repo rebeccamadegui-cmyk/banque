@@ -1,7 +1,7 @@
 <?php
 $json = json_decode(file_get_contents(__DIR__ . '/../test-reports/report-2026-06-10-161529.json'), true);
 
-echo "\n❌ TESTS ÉCHOUÉS - DÉTAILS:\n";
+echo "\nTESTS ECHOUES - DETAILS:\n";
 echo str_repeat("=", 70) . "\n\n";
 
 $failed_count = 0;
@@ -17,9 +17,9 @@ foreach ($json['results'] as $r) {
 }
 
 echo str_repeat("=", 70) . "\n";
-echo "\n📊 RÉSUMÉ:\n";
+echo "\nRESUME:\n";
 echo "- Total Tests: {$json['statistics']['total_tests']}\n";
-echo "- Réussis: {$json['statistics']['passed']} ✅\n";
-echo "- Échoués: {$json['statistics']['failed']} ❌\n";
+echo "- Reussis: {$json['statistics']['passed']}\n";
+echo "- Echoues: {$json['statistics']['failed']}\n";
 echo "- Taux: {$json['statistics']['pass_rate']}%\n";
 ?>

@@ -1,17 +1,17 @@
-# 🧪 Suite de Tests Automatisés - Banque API
+# Suite de Tests Automatisés - Banque API
 
 Documentation complète du système de tests automatisés pour l'API Banque.
 
-## 📋 Vue d'ensemble
+## Vue d'ensemble
 
 Le système de tests automatisés offre:
-- ✅ Tests complets de tous les endpoints API
-- ✅ Validation des données entrantes et sortantes
-- ✅ Gestion des erreurs et codes HTTP
-- ✅ Rapports HTML, JSON et JUnit XML
-- ✅ Intégration CI/CD
+- Tests complets de tous les endpoints API
+- Validation des données entrantes et sortantes
+- Gestion des erreurs et codes HTTP
+- Rapports HTML, JSON et JUnit XML
+- Intégration CI/CD
 
-## 🚀 Démarrage rapide
+## Démarrage rapide
 
 ### Prérequis
 - PHP 7.0+
@@ -26,7 +26,7 @@ cd c:\wamp64\www\banque\tests
 php run-tests.php
 ```
 
-## 📁 Structure des fichiers
+## Structure des fichiers
 
 ```
 tests/
@@ -37,7 +37,7 @@ tests/
 └── README.md            # Cette documentation
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 Modifier `config.php` pour personnaliser:
 
@@ -68,52 +68,52 @@ Modifier `config.php` pour personnaliser:
 ],
 ```
 
-## 📊 Suites de Tests
+## Suites de Tests
 
-### 1️⃣ Tests des Comptes (CRUD)
-- ✅ Création de comptes
-- ✅ Listing des comptes
-- ✅ Récupération de détails
-- ✅ Modification du titulaire
-- ✅ Suppression de comptes
+### Tests des Comptes (CRUD)
+- Création de comptes
+- Listing des comptes
+- Récupération de détails
+- Modification du titulaire
+- Suppression de comptes
 
-### 2️⃣ Tests des Dépôts
-- ✅ Dépôts valides (montants positifs)
-- ✅ Validation montants négatifs
-- ✅ Validation montants zéro
-- ✅ Validation montants excessifs
+### Tests des Dépôts
+- Dépôts valides (montants positifs)
+- Validation montants négatifs
+- Validation montants zéro
+- Validation montants excessifs
 
-### 3️⃣ Tests des Retraits
-- ✅ Retraits valides
-- ✅ Détection solde insuffisant
-- ✅ Validation des montants invalides
+### Tests des Retraits
+- Retraits valides
+- Détection solde insuffisant
+- Validation des montants invalides
 
-### 4️⃣ Tests des Virements
-- ✅ Virements inter-comptes
-- ✅ Détection compte inexistant
-- ✅ Validation montants
+### Tests des Virements
+- Virements inter-comptes
+- Détection compte inexistant
+- Validation montants
 
-### 5️⃣ Tests des Transferts Service
-- ✅ Transfert OM
-- ✅ Transfert MOMO
-- ✅ Transfert UBA
-- ✅ Validation service inexistant
+### Tests des Transferts Service
+- Transfert OM
+- Transfert MOMO
+- Transfert UBA
+- Validation service inexistant
 
-### 6️⃣ Tests de l'Historique
-- ✅ Listing des transactions
-- ✅ Filtrage par service
-- ✅ Liste des services disponibles
+### Tests de l'Historique
+- Listing des transactions
+- Filtrage par service
+- Liste des services disponibles
 
-### 7️⃣ Tests de Validation
-- ✅ Comptes inexistants
-- ✅ Titulaires invalides
-- ✅ Paramètres malformés
+### Tests de Validation
+- Comptes inexistants
+- Titulaires invalides
+- Paramètres malformés
 
-## 📈 Rapports
+## Rapports
 
 Les tests génèrent automatiquement:
 
-### 📄 Rapport JSON
+### Rapport JSON
 **Format:** `test-reports/report-YYYY-MM-DD-HHmmss.json`
 
 ```json
@@ -130,15 +130,15 @@ Les tests génèrent automatiquement:
 }
 ```
 
-### 🌐 Rapport HTML
+### Rapport HTML
 **Format:** `test-reports/report-YYYY-MM-DD-HHmmss.html`
 
 - Dashboard avec statistiques
 - Tableau détaillé des résultats
-- Codes couleur (✅ réussi / ❌ échoué)
+- Codes couleur (réussi / échoué)
 - Responsive et facile à consulter
 
-### ⚙️ Rapport JUnit XML
+### Rapport JUnit XML
 **Format:** `test-reports/report-YYYY-MM-DD-HHmmss.xml`
 
 Compatible avec:
@@ -147,7 +147,7 @@ Compatible avec:
 - GitLab CI
 - Azure Pipelines
 
-## 🔄 Intégration Git
+## Intégration Git
 
 ### Configuration du hook pré-commit
 
@@ -162,55 +162,47 @@ cp tests/.git-hooks-pre-commit.sh .git/hooks/pre-commit
 
 Les tests s'exécutent automatiquement avant chaque commit.
 
-## 📊 Exemple de sortie
+## Exemple de sortie
 
 ```
-╔════════════════════════════════════════════════════════════╗
-║     SUITE DE TESTS AUTOMATISÉS API BANQUE                 ║
-║     Démarrage: 2026-06-10 14:30:00                        ║
-╚════════════════════════════════════════════════════════════╝
+SUITE DE TESTS AUTOMATISÉS API BANQUE
+Démarrage: 2026-06-10 14:30:00
 
-╔════════════════════════════════════════════════════════════╗
-║  SUITE 1: GESTION DES COMPTES (CRUD)                      ║
-╚════════════════════════════════════════════════════════════╝
+SUITE 1: GESTION DES COMPTES (CRUD)
 
-✅ PASS | Test 1: Créer compte: Test Account 1 (HTTP 200)
-✅ PASS | Test 2: Créer compte: Test Account 2 (HTTP 200)
-✅ PASS | Test 3: Créer compte: Test Account 3 (HTTP 200)
-✅ PASS | Test 4: Lister tous les comptes (HTTP 200)
-✅ PASS | Test 5: Récupérer détails compte (HTTP 200)
-...
+PASS | Test 1: Créer compte: Test Account 1 (HTTP 200)
+PASS | Test 2: Créer compte: Test Account 2 (HTTP 200)
+PASS | Test 3: Créer compte: Test Account 3 (HTTP 200)
+PASS | Test 4: Lister tous les comptes (HTTP 200)
+PASS | Test 5: Récupérer détails compte (HTTP 200)
 
-╔════════════════════════════════════════════════════════════╗
-║                    RÉSUMÉ DES TESTS                       ║
-╠════════════════════════════════════════════════════════════╣
-║ Total des tests:  50
-║ Tests réussis:    48 ✅
-║ Tests échoués:    2 ❌
-║ Taux de réussite: 96.0%
-║ Durée:            2.45s
-╚════════════════════════════════════════════════════════════╝
+RÉSUMÉ DES TESTS
+Total des tests:  50
+Tests réussis:    48
+Tests échoués:    2
+Taux de réussite: 96.0%
+Durée:            2.45s
 
-✅ Rapport JSON: report-2026-06-10-143000.json
-✅ Rapport HTML: report-2026-06-10-143000.html
-✅ Rapport JUnit: report-2026-06-10-143000.xml
+Rapport JSON: report-2026-06-10-143000.json
+Rapport HTML: report-2026-06-10-143000.html
+Rapport JUnit: report-2026-06-10-143000.xml
 
-📊 Rapports générés dans: c:\wamp64\www\banque\test-reports\
+Rapports générés dans: c:\wamp64\www\banque\test-reports\
 ```
 
-## 🐛 Dépannage
+## Dépannage
 
 ### Le serveur PHP n'est pas accessible
 ```
 Erreur: Le serveur PHP n'est pas accessible sur http://localhost
 ```
-**Solution:** Démarrez WAMP/LAMP et vérifiez que l'API Banque est accessible.
+Solution: Démarrez WAMP/LAMP et vérifiez que l'API Banque est accessible.
 
 ### Erreurs de connexion aux tests
 ```
 cURL error 28: Operation timed out
 ```
-**Solution:** Augmentez le timeout dans `config.php`:
+Solution: Augmentez le timeout dans `config.php`:
 ```php
 'server' => [
     'timeout' => 30, // Augmenter à 30 secondes
@@ -221,11 +213,11 @@ cURL error 28: Operation timed out
 ```
 Erreur: comptes.json introuvable
 ```
-**Solution:** Assurez-vous que les fichiers JSON existent:
+Solution: Assurez-vous que les fichiers JSON existent:
 - `c:\wamp64\www\banque\comptes.json`
 - `c:\wamp64\www\banque\transactions.json`
 
-## 📚 API Endpoints testés
+## API Endpoints testés
 
 | Endpoint | Méthode | Description |
 |----------|---------|-------------|
@@ -242,7 +234,7 @@ Erreur: comptes.json introuvable
 | `?action=transactions_service&service=X` | `GET` | Transactions par service |
 | `?action=services` | `GET` | Liste des services |
 
-## 🎯 Bonnes pratiques
+## Bonnes pratiques
 
 1. **Exécutez les tests régulièrement** - Avant chaque commit
 2. **Consultez les rapports** - Vérifiez les résultats détaillés
@@ -250,7 +242,7 @@ Erreur: comptes.json introuvable
 4. **Mettez à jour la config** - Adaptez les données de test si nécessaire
 5. **Archivez les rapports** - Gardez l'historique des résultats
 
-## 📞 Support
+## Support
 
 Pour des questions ou problèmes:
 1. Vérifiez que l'API est opérationnelle
@@ -258,6 +250,6 @@ Pour des questions ou problèmes:
 3. Testez manuellement les endpoints avec cURL
 4. Vérifiez les logs PHP/serveur
 
-## 📝 Licence
+## Licence
 
 Partie du projet Banque API - Tous droits réservés.

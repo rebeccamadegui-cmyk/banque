@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Tests - Banque API</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 8px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        .timestamp { color: #7f8c8d; font-size: 14px; margin-bottom: 20px; }
+        .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; }
+        .stat { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 8px; }
+        .stat h3 { font-size: 12px; opacity: 0.9; }
+        .stat .value { font-size: 32px; font-weight: bold; margin-top: 10px; }
+        .passed { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); }
+        .failed { background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%); }
+        .rate { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #2c3e50; color: white; padding: 12px; text-align: left; font-weight: 600; }
+        td { padding: 12px; border-bottom: 1px solid #ecf0f1; }
+        tr:hover { background: #f8f9fa; }
+        .pass { color: #27ae60; font-weight: bold; }
+        .fail { color: #e74c3c; font-weight: bold; }
+        .endpoint { color: #3498db; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rapport de Tests - Banque API</h1>
+        <p class="timestamp">Généré le 2026-06-10 16:24:51</p>
+        
+        <div class="summary">
+            <div class="stat">
+                <h3>Total Tests</h3>
+                <div class="value">41</div>
+            </div>
+            <div class="stat passed">
+                <h3>Tests Réussis</h3>
+                <div class="value">39</div>
+            </div>
+            <div class="stat failed">
+                <h3>Tests Échoués</h3>
+                <div class="value">2</div>
+            </div>
+            <div class="stat rate">
+                <h3>Taux de Réussite</h3>
+                <div class="value">95.1%</div>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 30px; margin-bottom: 15px;">Détails des Tests</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test</th>
+                    <th>Méthode</th>
+                    <th>Endpoint</th>
+                    <th>HTTP Code</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody><tr>
+                <td>Créer compte: Test Account 1</td>
+                <td>POST</td>
+                <td class="endpoint"></td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Créer compte: Test Account 2</td>
+                <td>POST</td>
+                <td class="endpoint"></td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Créer compte: Test Account 3</td>
+                <td>POST</td>
+                <td class="endpoint"></td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Lister tous les comptes</td>
+                <td>GET</td>
+                <td class="endpoint"></td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Récupérer détails compte ID: 1781108690</td>
+                <td>GET</td>
+                <td class="endpoint">?id=1781108690</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Modifier titulaire du compte 1781108690</td>
+                <td>PUT</td>
+                <td class="endpoint">?id=1781108690</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt de 10000 FCFA sur compte 1781108690</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt de 50000 FCFA sur compte 1781108690</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt de 100000 FCFA sur compte 1781108690</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt avec montant négatif</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt avec montant zéro</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt avec montant très élevé</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=depot</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Retrait de 1000 FCFA</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=retrait</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Retrait montant négatif</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=retrait</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Retrait montant zéro</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=retrait</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Retrait solde insuffisant</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=retrait</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Virement de 1781108690 vers 1781108690 (5000 FCFA)</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=virement</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Virement vers compte inexistant</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=virement</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Virement montant négatif</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=virement</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transfert vers OM (5000 FCFA)</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=transfert_service</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transfert vers MOMO (5000 FCFA)</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=transfert_service</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transfert vers UBA (5000 FCFA)</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=transfert_service</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transfert vers service invalide</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=transfert_service</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transfert service montant zéro</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1781108690&amp;action=transfert_service</td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Lister toutes les transactions</td>
+                <td>GET</td>
+                <td class="endpoint">?action=transactions</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transactions du service OM</td>
+                <td>GET</td>
+                <td class="endpoint">?action=transactions_service&amp;service=OM</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transactions du service MOMO</td>
+                <td>GET</td>
+                <td class="endpoint">?action=transactions_service&amp;service=MOMO</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Transactions du service UBA</td>
+                <td>GET</td>
+                <td class="endpoint">?action=transactions_service&amp;service=UBA</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Récupérer liste des services</td>
+                <td>GET</td>
+                <td class="endpoint">?action=services</td>
+                <td>200</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Compte inexistant</td>
+                <td>GET</td>
+                <td class="endpoint">?id=999999999</td>
+                <td>404</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Créer avec titulaire trop court</td>
+                <td>POST</td>
+                <td class="endpoint"></td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Créer avec titulaire trop long</td>
+                <td>POST</td>
+                <td class="endpoint"></td>
+                <td>400</td>
+                <td class="pass">PASS</td>
+            </tr><tr>
+                <td>Dépôt sans montant</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1&amp;action=depot</td>
+                <td>404</td>
+                <td class="fail">FAIL</td>
+            </tr><tr>
+                <td>Requête avec JSON invalide</td>
+                <td>POST</td>
+                <td class="endpoint">?id=1&amp;action=depot</td>
+                <td>404</td>
+                <td class="fail">FAIL</td>
+            </tr></tbody>
+        </table>
+    </div>
+</body>
+</html>
