@@ -1,0 +1,1267 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banque API - Gestion Bancaire</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      header {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header h1 {
+        color: #667eea;
+        font-size: 28px;
+      }
+
+      header .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-secondary {
+        background: #f093fb;
+        color: white;
+      }
+
+      .btn-secondary:hover {
+        background: #e080e8;
+      }
+
+      .btn-success {
+        background: #4caf50;
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: #45a049;
+      }
+
+      .btn-danger {
+        background: #f44336;
+        color: white;
+      }
+
+      .btn-danger:hover {
+        background: #da190b;
+      }
+
+      .btn-warning {
+        background: #ff9800;
+        color: white;
+      }
+
+      .btn-warning:hover {
+        background: #e68900;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+
+        header {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .nav-buttons {
+          flex-wrap: wrap;
+        }
+      }
+
+      .card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-title {
+        color: #667eea;
+        font-size: 20px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .accounts-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .account-item {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .account-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .account-item.active {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      }
+
+      .account-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .account-holder {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .account-number {
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      .account-balance {
+        font-size: 18px;
+        font-weight: 700;
+      }
+
+      .alert {
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .alert-info {
+        background: #d1ecf1;
+        color: #0c5460;
+        border: 1px solid #bee5eb;
+      }
+
+      .transactions-list {
+        display: grid;
+        gap: 10px;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .transaction-item {
+        background: #f8f9fa;
+        padding: 12px;
+        border-radius: 5px;
+        border-left: 4px solid #667eea;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .transaction-item.deposit {
+        border-left-color: #4caf50;
+      }
+
+      .transaction-item.withdrawal {
+        border-left-color: #ff9800;
+      }
+
+      .transaction-item.transfer {
+        border-left-color: #2196f3;
+      }
+
+      .transaction-item.service {
+        border-left-color: #f44336;
+      }
+
+      .transaction-type {
+        font-weight: 700;
+        color: #333;
+      }
+
+      .transaction-date {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .transaction-amount {
+        font-weight: 700;
+        font-size: 16px;
+      }
+
+      .amount-positive {
+        color: #4caf50;
+      }
+
+      .amount-negative {
+        color: #f44336;
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 500px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        animation: slideUp 0.3s ease;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .modal-title {
+        color: #667eea;
+        font-size: 24px;
+      }
+
+      .close {
+        font-size: 28px;
+        font-weight: bold;
+        color: #999;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .close:hover {
+        color: #333;
+      }
+
+      .modal-footer {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 20px;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stat-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .section-full {
+        grid-column: 1 / -1;
+      }
+
+      .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        color: #667eea;
+      }
+
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+      }
+
+      .empty-state i {
+        font-size: 48px;
+        margin-bottom: 10px;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div class="logo">
+          <i
+            class="fas fa-university"
+            style="font-size: 32px; color: #667eea"
+          ></i>
+          <h1>Banque API</h1>
+        </div>
+        <div class="nav-buttons">
+          <button class="btn-primary" onclick="openModal('createAccountModal')">
+            <i class="fas fa-plus"></i> Créer un compte
+          </button>
+          <button class="btn-secondary" onclick="refreshAccounts()">
+            <i class="fas fa-sync"></i> Actualiser
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <!-- Accounts Section -->
+        <div class="card">
+          <div class="card-title">
+            <i class="fas fa-wallet"></i> Comptes Disponibles
+          </div>
+          <div id="accountsList" class="accounts-list">
+            <div class="empty-state">
+              <i class="fas fa-inbox"></i>
+              <p>Aucun compte trouvé</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions Section -->
+        <div>
+          <!-- Stats -->
+          <div class="stats-grid" id="statsGrid" style="display: none">
+            <div class="stat-card">
+              <div class="stat-value" id="totalAccounts">0</div>
+              <div class="stat-label">Total Comptes</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="totalBalance">0 FCFA</div>
+              <div class="stat-label">Solde Total</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="totalTransactions">0</div>
+              <div class="stat-label">Transactions</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card">
+            <div class="card-title">
+              <i class="fas fa-exchange-alt"></i> Actions Rapides
+            </div>
+            <div
+              id="selectedAccountInfo"
+              style="
+                display: none;
+                background: #f0f4ff;
+                padding: 15px;
+                border-radius: 5px;
+                margin-bottom: 15px;
+              "
+            >
+              <strong style="color: #667eea">Compte sélectionné:</strong>
+              <p id="selectedAccountName" style="margin: 5px 0"></p>
+              <p
+                id="selectedAccountBalance"
+                style="
+                  margin: 5px 0;
+                  font-size: 18px;
+                  color: #667eea;
+                  font-weight: 700;
+                "
+              ></p>
+            </div>
+
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px"
+            >
+              <button
+                class="btn-success"
+                onclick="openModal('depositModal')"
+                style="width: 100%"
+              >
+                <i class="fas fa-arrow-down"></i> Dépôt
+              </button>
+              <button
+                class="btn-warning"
+                onclick="openModal('withdrawalModal')"
+                style="width: 100%"
+              >
+                <i class="fas fa-arrow-up"></i> Retrait
+              </button>
+              <button
+                class="btn-primary"
+                onclick="openModal('transferModal')"
+                style="width: 100%; grid-column: 1 / -1"
+              >
+                <i class="fas fa-exchange-alt"></i> Virement Entre Comptes
+              </button>
+              <button
+                class="btn-danger"
+                onclick="openModal('serviceTransferModal')"
+                style="width: 100%; grid-column: 1 / -1"
+              >
+                <i class="fas fa-money-bill"></i> Transfert Service (OM, MOMO,
+                UBA)
+              </button>
+            </div>
+          </div>
+
+          <!-- Transactions History -->
+          <div class="card" style="margin-top: 20px">
+            <div class="card-title">
+              <i class="fas fa-history"></i> Transactions Récentes
+            </div>
+            <div id="transactionsList" class="transactions-list">
+              <div class="empty-state" style="padding: 20px">
+                <p>Aucune transaction</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Create Account Modal -->
+    <div id="createAccountModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">
+            <i class="fas fa-user-plus"></i> Créer un Compte
+          </h2>
+          <span class="close" onclick="closeModal('createAccountModal')"
+            >&times;</span
+          >
+        </div>
+        <form onsubmit="createAccount(event)">
+          <div class="form-group">
+            <label>Nom du Titulaire *</label>
+            <input
+              type="text"
+              id="titulaire"
+              required
+              placeholder="Jean Dupont"
+            />
+          </div>
+          <div id="createAccountAlert"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="closeModal('createAccountModal')"
+            >
+              Annuler
+            </button>
+            <button type="submit" class="btn-success">Créer Compte</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title"><i class="fas fa-arrow-down"></i> Dépôt</h2>
+          <span class="close" onclick="closeModal('depositModal')"
+            >&times;</span
+          >
+        </div>
+        <form onsubmit="makeDeposit(event)">
+          <div class="form-group">
+            <label>Montant (FCFA) *</label>
+            <input
+              type="number"
+              id="depositAmount"
+              required
+              placeholder="10000"
+              min="1"
+              step="100"
+            />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              id="depositDescription"
+              placeholder="Motif du dépôt..."
+            ></textarea>
+          </div>
+          <div id="depositAlert"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="closeModal('depositModal')"
+            >
+              Annuler
+            </button>
+            <button type="submit" class="btn-success">Effectuer Dépôt</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div id="withdrawalModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title"><i class="fas fa-arrow-up"></i> Retrait</h2>
+          <span class="close" onclick="closeModal('withdrawalModal')"
+            >&times;</span
+          >
+        </div>
+        <form onsubmit="makeWithdrawal(event)">
+          <div class="form-group">
+            <label>Montant (FCFA) *</label>
+            <input
+              type="number"
+              id="withdrawalAmount"
+              required
+              placeholder="5000"
+              min="1"
+              step="100"
+            />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              id="withdrawalDescription"
+              placeholder="Motif du retrait..."
+            ></textarea>
+          </div>
+          <div id="withdrawalAlert"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="closeModal('withdrawalModal')"
+            >
+              Annuler
+            </button>
+            <button type="submit" class="btn-warning">Effectuer Retrait</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">
+            <i class="fas fa-exchange-alt"></i> Virement Entre Comptes
+          </h2>
+          <span class="close" onclick="closeModal('transferModal')"
+            >&times;</span
+          >
+        </div>
+        <form onsubmit="makeTransfer(event)">
+          <div class="form-group">
+            <label>Compte Destinataire (ID) *</label>
+            <input
+              type="number"
+              id="transferDestination"
+              required
+              placeholder="Entrer l'ID du compte destinataire"
+              min="1"
+            />
+          </div>
+          <div class="form-group">
+            <label>Montant (FCFA) *</label>
+            <input
+              type="number"
+              id="transferAmount"
+              required
+              placeholder="5000"
+              min="1"
+              step="100"
+            />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea
+              id="transferDescription"
+              placeholder="Motif du virement..."
+            ></textarea>
+          </div>
+          <div id="transferAlert"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="closeModal('transferModal')"
+            >
+              Annuler
+            </button>
+            <button type="submit" class="btn-primary">
+              Effectuer Virement
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Service Transfer Modal -->
+    <div id="serviceTransferModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">
+            <i class="fas fa-money-bill"></i> Transfert Service
+          </h2>
+          <span class="close" onclick="closeModal('serviceTransferModal')"
+            >&times;</span
+          >
+        </div>
+        <form onsubmit="makeServiceTransfer(event)">
+          <div class="form-group">
+            <label>Service Destination *</label>
+            <select id="serviceDestination" required>
+              <option value="">-- Sélectionner un service --</option>
+              <option value="OM">OM (Orange Money)</option>
+              <option value="MOMO">MOMO (Mobile Money)</option>
+              <option value="UBA">UBA (Union Bank)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Montant (FCFA) *</label>
+            <input
+              type="number"
+              id="serviceTransferAmount"
+              required
+              placeholder="10000"
+              min="1"
+              step="100"
+            />
+          </div>
+          <div class="form-group">
+            <label>Numéro Destinataire</label>
+            <input
+              type="text"
+              id="recipientNumber"
+              placeholder="Numéro de téléphone ou compte"
+            />
+          </div>
+          <div id="serviceTransferAlert"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn-primary"
+              onclick="closeModal('serviceTransferModal')"
+            >
+              Annuler
+            </button>
+            <button type="submit" class="btn-danger">
+              Effectuer Transfert
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost/banque/api.php";
+      let selectedAccount = null;
+      let allAccounts = [];
+      let allTransactions = [];
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", function () {
+        refreshAccounts();
+        setInterval(refreshAccounts, 5000); // Auto-refresh every 5 seconds
+      });
+
+      // API Functions
+      async function apiCall(endpoint, method = "GET", data = null) {
+        try {
+          const options = {
+            method: method,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+
+          if (data) {
+            options.body = JSON.stringify(data);
+          }
+
+          const response = await fetch(`${API_URL}${endpoint}`, options);
+          const result = await response.json();
+
+          if (!response.ok && result.error) {
+            throw new Error(result.error);
+          }
+
+          return result;
+        } catch (error) {
+          console.error("API Error:", error);
+          throw error;
+        }
+      }
+
+      // Get all accounts
+      async function refreshAccounts() {
+        try {
+          const result = await apiCall("");
+          allAccounts = result.data || [];
+
+          // Get transactions
+          const transResult = await apiCall("?action=transactions");
+          allTransactions = transResult.data || [];
+
+          updateUI();
+        } catch (error) {
+          console.error("Error refreshing accounts:", error);
+        }
+      }
+
+      // Update UI
+      function updateUI() {
+        updateAccountsList();
+        updateStats();
+        updateTransactionsList();
+      }
+
+      function updateAccountsList() {
+        const accountsList = document.getElementById("accountsList");
+
+        if (allAccounts.length === 0) {
+          accountsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>Aucun compte trouvé</p>
+                    </div>
+                `;
+          return;
+        }
+
+        accountsList.innerHTML = allAccounts
+          .map(
+            (account) => `
+                <div class="account-item ${selectedAccount?.id === account.id ? "active" : ""}" onclick="selectAccount(${account.id})">
+                    <div class="account-info">
+                        <div class="account-holder">${account.titulaire}</div>
+                        <div class="account-number">Compte: ${account.numero_compte}</div>
+                    </div>
+                    <div class="account-balance">${formatCurrency(account.solde)}</div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      function selectAccount(id) {
+        selectedAccount = allAccounts.find((acc) => acc.id === id);
+        updateUI();
+        updateSelectedAccountInfo();
+      }
+
+      function updateSelectedAccountInfo() {
+        const selectedAccountInfo = document.getElementById(
+          "selectedAccountInfo",
+        );
+        const selectedAccountName = document.getElementById(
+          "selectedAccountName",
+        );
+        const selectedAccountBalance = document.getElementById(
+          "selectedAccountBalance",
+        );
+
+        if (selectedAccount) {
+          selectedAccountInfo.style.display = "block";
+          selectedAccountName.textContent = selectedAccount.titulaire;
+          selectedAccountBalance.textContent = `Solde: ${formatCurrency(selectedAccount.solde)}`;
+        } else {
+          selectedAccountInfo.style.display = "none";
+        }
+      }
+
+      function updateStats() {
+        const totalAccounts = allAccounts.length;
+        const totalBalance = allAccounts.reduce(
+          (sum, acc) => sum + acc.solde,
+          0,
+        );
+        const totalTransactions = allTransactions.length;
+
+        document.getElementById("statsGrid").style.display =
+          totalAccounts > 0 ? "grid" : "none";
+        document.getElementById("totalAccounts").textContent = totalAccounts;
+        document.getElementById("totalBalance").textContent =
+          formatCurrency(totalBalance);
+        document.getElementById("totalTransactions").textContent =
+          totalTransactions;
+      }
+
+      function updateTransactionsList() {
+        const transactionsList = document.getElementById("transactionsList");
+
+        if (allTransactions.length === 0) {
+          transactionsList.innerHTML = `
+                    <div class="empty-state" style="padding: 20px;">
+                        <p>Aucune transaction</p>
+                    </div>
+                `;
+          return;
+        }
+
+        // Sort by date descending and limit to 10
+        const recentTransactions = allTransactions
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .slice(0, 10);
+
+        transactionsList.innerHTML = recentTransactions
+          .map(
+            (transaction) => `
+                <div class="transaction-item ${getTransactionClass(transaction.type)}">
+                    <div>
+                        <div class="transaction-type">${getTransactionLabel(transaction.type)}</div>
+                        <div class="transaction-date">${new Date(transaction.date).toLocaleString("fr-FR")}</div>
+                    </div>
+                    <div class="transaction-amount ${transaction.montant >= 0 ? "amount-positive" : "amount-negative"}">
+                        ${transaction.montant >= 0 ? "+" : ""}${formatCurrency(transaction.montant)}
+                    </div>
+                </div>
+            `,
+          )
+          .join("");
+      }
+
+      // Form Functions
+      async function createAccount(event) {
+        event.preventDefault();
+        const titulaire = document.getElementById("titulaire").value;
+        const alertDiv = document.getElementById("createAccountAlert");
+
+        try {
+          const result = await apiCall("", "POST", { titulaire });
+          showAlert(alertDiv, "Compte créé avec succès!", "success");
+          document.getElementById("titulaire").value = "";
+          setTimeout(() => {
+            closeModal("createAccountModal");
+            refreshAccounts();
+          }, 1500);
+        } catch (error) {
+          showAlert(alertDiv, error.message, "error");
+        }
+      }
+
+      async function makeDeposit(event) {
+        event.preventDefault();
+
+        if (!selectedAccount) {
+          showAlert(
+            document.getElementById("depositAlert"),
+            "Veuillez sélectionner un compte",
+            "error",
+          );
+          return;
+        }
+
+        const montant = parseFloat(
+          document.getElementById("depositAmount").value,
+        );
+        const description = document.getElementById("depositDescription").value;
+        const alertDiv = document.getElementById("depositAlert");
+
+        try {
+          const result = await apiCall(
+            `?id=${selectedAccount.id}&action=depot`,
+            "POST",
+            {
+              montant,
+              description,
+            },
+          );
+          showAlert(alertDiv, "Dépôt effectué avec succès!", "success");
+          document.getElementById("depositAmount").value = "";
+          document.getElementById("depositDescription").value = "";
+          setTimeout(() => {
+            closeModal("depositModal");
+            refreshAccounts();
+          }, 1500);
+        } catch (error) {
+          showAlert(alertDiv, error.message, "error");
+        }
+      }
+
+      async function makeWithdrawal(event) {
+        event.preventDefault();
+
+        if (!selectedAccount) {
+          showAlert(
+            document.getElementById("withdrawalAlert"),
+            "Veuillez sélectionner un compte",
+            "error",
+          );
+          return;
+        }
+
+        const montant = parseFloat(
+          document.getElementById("withdrawalAmount").value,
+        );
+        const description = document.getElementById(
+          "withdrawalDescription",
+        ).value;
+        const alertDiv = document.getElementById("withdrawalAlert");
+
+        try {
+          const result = await apiCall(
+            `?id=${selectedAccount.id}&action=retrait`,
+            "POST",
+            {
+              montant,
+              description,
+            },
+          );
+          showAlert(alertDiv, "Retrait effectué avec succès!", "success");
+          document.getElementById("withdrawalAmount").value = "";
+          document.getElementById("withdrawalDescription").value = "";
+          setTimeout(() => {
+            closeModal("withdrawalModal");
+            refreshAccounts();
+          }, 1500);
+        } catch (error) {
+          showAlert(alertDiv, error.message, "error");
+        }
+      }
+
+      async function makeTransfer(event) {
+        event.preventDefault();
+
+        if (!selectedAccount) {
+          showAlert(
+            document.getElementById("transferAlert"),
+            "Veuillez sélectionner un compte source",
+            "error",
+          );
+          return;
+        }
+
+        const compte_destinataire = parseInt(
+          document.getElementById("transferDestination").value,
+        );
+        const montant = parseFloat(
+          document.getElementById("transferAmount").value,
+        );
+        const description = document.getElementById(
+          "transferDescription",
+        ).value;
+        const alertDiv = document.getElementById("transferAlert");
+
+        try {
+          const result = await apiCall(
+            `?id=${selectedAccount.id}&action=virement`,
+            "POST",
+            {
+              montant,
+              compte_destinataire,
+              description,
+            },
+          );
+          showAlert(alertDiv, "Virement effectué avec succès!", "success");
+          document.getElementById("transferDestination").value = "";
+          document.getElementById("transferAmount").value = "";
+          document.getElementById("transferDescription").value = "";
+          setTimeout(() => {
+            closeModal("transferModal");
+            refreshAccounts();
+          }, 1500);
+        } catch (error) {
+          showAlert(alertDiv, error.message, "error");
+        }
+      }
+
+      async function makeServiceTransfer(event) {
+        event.preventDefault();
+
+        if (!selectedAccount) {
+          showAlert(
+            document.getElementById("serviceTransferAlert"),
+            "Veuillez sélectionner un compte",
+            "error",
+          );
+          return;
+        }
+
+        const service_destination =
+          document.getElementById("serviceDestination").value;
+        const montant = parseFloat(
+          document.getElementById("serviceTransferAmount").value,
+        );
+        const recipientNumber =
+          document.getElementById("recipientNumber").value;
+        const alertDiv = document.getElementById("serviceTransferAlert");
+
+        try {
+          const result = await apiCall(
+            `?id=${selectedAccount.id}&action=transfert_service`,
+            "POST",
+            {
+              montant,
+              service_destination,
+              recipient_number: recipientNumber,
+            },
+          );
+          showAlert(alertDiv, "Transfert effectué avec succès!", "success");
+          document.getElementById("serviceDestination").value = "";
+          document.getElementById("serviceTransferAmount").value = "";
+          document.getElementById("recipientNumber").value = "";
+          setTimeout(() => {
+            closeModal("serviceTransferModal");
+            refreshAccounts();
+          }, 1500);
+        } catch (error) {
+          showAlert(alertDiv, error.message, "error");
+        }
+      }
+
+      // Utility Functions
+      function openModal(modalId) {
+        document.getElementById(modalId).classList.add("active");
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove("active");
+        // Clear all alerts
+        document.querySelectorAll('[id*="Alert"]').forEach((alert) => {
+          alert.innerHTML = "";
+        });
+      }
+
+      function showAlert(alertDiv, message, type) {
+        alertDiv.innerHTML = `
+                <div class="alert alert-${type}">
+                    <i class="fas ${type === "success" ? "fa-check-circle" : type === "error" ? "fa-exclamation-circle" : "fa-info-circle"}"></i>
+                    ${message}
+                </div>
+            `;
+      }
+
+      function formatCurrency(amount) {
+        return new Intl.NumberFormat("fr-FR", {
+          style: "currency",
+          currency: "XOF",
+          minimumFractionDigits: 0,
+        }).format(amount);
+      }
+
+      function getTransactionClass(type) {
+        switch (type.toLowerCase()) {
+          case "depot":
+            return "deposit";
+          case "retrait":
+            return "withdrawal";
+          case "virement_sortant":
+          case "virement_entrant":
+            return "transfer";
+          default:
+            return "service";
+        }
+      }
+
+      function getTransactionLabel(type) {
+        const labels = {
+          depot: "📥 Dépôt",
+          retrait: "📤 Retrait",
+          virement_sortant: "📤 Virement Sortant",
+          virement_entrant: "📥 Virement Entrant",
+          transfert_service: "💳 Transfert Service",
+        };
+        return labels[type] || type;
+      }
+
+      // Close modal on outside click
+      window.onclick = function (event) {
+        if (event.target.classList.contains("modal")) {
+          event.target.classList.remove("active");
+        }
+      };
+    </script>
+  </body>
+</html>
