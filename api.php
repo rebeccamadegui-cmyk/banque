@@ -351,7 +351,7 @@ elseif ($methode === 'POST') {
         if (!empty($donnees['titulaire'])) {
             $nouveauCompte = [
                 "id" => time(), // ID unique basé sur l'heure
-                "numero" => "FR" . rand(1000, 9999) . "BANK",
+                "numero_compte" => "FR" . rand(1000, 9999) . "BANK",
                 "titulaire" => $donnees['titulaire'],
                 "solde" => 0
             ];
