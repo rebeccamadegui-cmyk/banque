@@ -67,6 +67,39 @@ function sauvegarderComptes() {
     file_put_contents($filename, json_encode($comptes));
 }
 
+// Constantes de validation
+define('MIN_MONTANT', 100);
+define('MAX_MONTANT', 10000000);
+define('MIN_TITULAIRE_LENGTH', 3);
+define('MAX_TITULAIRE_LENGTH', 100);
+
+function validerMontant($montant, $context = 'dépôt') {
+    if (!isset($montant) || !is_numeric($montant)) {
+        return "Montant invalide pour le $context";
+    }
+    if ($montant <= 0) {
+        return "Montant invalide pour le $context";
+    }
+    if ($montant > MAX_MONTANT) {
+        return "Montant trop élevé (max: " . MAX_MONTANT . " FCFA)";
+    }
+    return null;
+}
+
+function validerTitulaire($titulaire) {
+    if (!isset($titulaire) || empty($titulaire)) {
+        return "Le nom du titulaire est requis";
+    }
+    $length = strlen(trim($titulaire));
+    if ($length < MIN_TITULAIRE_LENGTH) {
+        return "Le titulaire doit contenir au moins " . MIN_TITULAIRE_LENGTH . " caractères";
+    }
+    if ($length > MAX_TITULAIRE_LENGTH) {
+        return "Le titulaire ne doit pas dépasser " . MAX_TITULAIRE_LENGTH . " caractères";
+    }
+    return null;
+}
+
 //---LOGIQUE DE L'API---//
 
 // Récupérer l'ID du compte depuis l'URL
@@ -152,9 +185,10 @@ elseif ($methode === 'POST') {
         }
 
         if ($action === 'depot') {
-            if (!isset($donnees['montant']) || !is_numeric($donnees['montant']) || $donnees['montant'] <= 0) {
+            $montant_error = validerMontant($donnees['montant'] ?? null, 'dépôt');
+            if ($montant_error) {
                 http_response_code(400);
-                echo json_encode(["error" => "Montant invalide pour le dépôt"]);
+                echo json_encode(["error" => $montant_error]);
                 exit;
             }
             $comptes[$result['index']]['solde'] += $donnees['montant'];
@@ -168,9 +202,10 @@ elseif ($methode === 'POST') {
             ]);
         }
         elseif ($action === 'retrait') {
-            if (!isset($donnees['montant']) || !is_numeric($donnees['montant']) || $donnees['montant'] <= 0) {
+            $montant_error = validerMontant($donnees['montant'] ?? null, 'retrait');
+            if ($montant_error) {
                 http_response_code(400);
-                echo json_encode(["error" => "Montant invalide pour le retrait"]);
+                echo json_encode(["error" => $montant_error]);
                 exit;
             }
             if ($comptes[$result['index']]['solde'] < $donnees['montant']) {
@@ -188,9 +223,10 @@ elseif ($methode === 'POST') {
             ]);
         }
         elseif ($action === 'virement') {
-            if (!isset($donnees['montant']) || !is_numeric($donnees['montant']) || $donnees['montant'] <= 0) {
+            $montant_error = validerMontant($donnees['montant'] ?? null, 'virement');
+            if ($montant_error) {
                 http_response_code(400);
-                echo json_encode(["error" => "Montant invalide pour le virement"]);
+                echo json_encode(["error" => $montant_error]);
                 exit;
             }
             if (!isset($donnees['compte_destinataire'])) {
@@ -206,7 +242,7 @@ elseif ($methode === 'POST') {
 
             $dest_result = trouverCompteParId($donnees['compte_destinataire']);
             if (!$dest_result) {
-                http_response_code(404);
+                http_response_code(400);
                 echo json_encode(["error" => "Compte destinataire non trouvé"]);
                 exit;
             }
@@ -227,9 +263,10 @@ elseif ($methode === 'POST') {
         }
         elseif ($action === 'transfert_service') {
             // Transfert d'argent vers un autre service (OM, MOMO, UBA)
-            if (!isset($donnees['montant']) || !is_numeric($donnees['montant']) || $donnees['montant'] <= 0) {
+            $montant_error = validerMontant($donnees['montant'] ?? null, 'transfert');
+            if ($montant_error) {
                 http_response_code(400);
-                echo json_encode(["error" => "Montant invalide pour le transfert"]);
+                echo json_encode(["error" => $montant_error]);
                 exit;
             }
             
@@ -348,25 +385,27 @@ elseif ($methode === 'POST') {
             exit;
         }
 
-        if (!empty($donnees['titulaire'])) {
-            $nouveauCompte = [
-                "id" => time(), // ID unique basé sur l'heure
-                "numero_compte" => "FR" . rand(1000, 9999) . "BANK",
-                "titulaire" => $donnees['titulaire'],
-                "solde" => 0
-            ];
-
-            $comptes[] = $nouveauCompte;
-            sauvegarderComptes();
-
-            echo json_encode([
-                "message" => "Compte cree avec succes",
-                "compte" => $nouveauCompte
-            ]);
-        } else {
+        $titulaire_error = validerTitulaire($donnees['titulaire'] ?? null);
+        if ($titulaire_error) {
             http_response_code(400);
-            echo json_encode(["error" => "Le nom du titulaire est requis"]);
+            echo json_encode(["error" => $titulaire_error]);
+            exit;
         }
+
+        $nouveauCompte = [
+            "id" => time(), // ID unique basé sur l'heure
+            "numero_compte" => "FR" . rand(1000, 9999) . "BANK",
+            "titulaire" => trim($donnees['titulaire']),
+            "solde" => 0
+        ];
+
+        $comptes[] = $nouveauCompte;
+        sauvegarderComptes();
+
+        echo json_encode([
+            "message" => "Compte cree avec succes",
+            "compte" => $nouveauCompte
+        ]);
     }
     exit;
 }
@@ -394,17 +433,19 @@ elseif ($methode === 'PUT') {
         exit;
     }
 
-    if (isset($donnees['titulaire']) && !empty($donnees['titulaire'])) {
-        $comptes[$result['index']]['titulaire'] = $donnees['titulaire'];
-        sauvegarderComptes();
-        echo json_encode([
-            "message" => "Compte mis à jour avec succès",
-            "compte" => $comptes[$result['index']]
-        ]);
-    } else {
+    $titulaire_error = validerTitulaire($donnees['titulaire'] ?? null);
+    if ($titulaire_error) {
         http_response_code(400);
-        echo json_encode(["error" => "Nom du titulaire requis pour la mise à jour"]);
+        echo json_encode(["error" => $titulaire_error]);
+        exit;
     }
+
+    $comptes[$result['index']]['titulaire'] = trim($donnees['titulaire']);
+    sauvegarderComptes();
+    echo json_encode([
+        "message" => "Compte mis à jour avec succès",
+        "compte" => $comptes[$result['index']]
+    ]);
     exit;
 }
 
